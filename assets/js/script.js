@@ -1,3 +1,4 @@
+var pageContentEl = document.querySelector("#page-content");
 var taskIdCounter = 0;
 var formEl = document.querySelector("#task-form");
 var tasksToDoEl = document.querySelector("#tasks-to-do");
@@ -70,6 +71,7 @@ var createTaskActions = function(taskId) {
     var deleteButtonEl = document.createElement("button");
     deleteButtonEl.textContent = "Delete";
     deleteButtonEl.className = "btn delete-btn";
+    // ??? what is taskId doing here ???
     deleteButtonEl.setAttribute("data-task-id", taskId);
 
     actionContainerEl.appendChild(deleteButtonEl);
@@ -98,3 +100,15 @@ var createTaskActions = function(taskId) {
 };
 
 formEl.addEventListener("submit", taskFormHandler);
+
+var taskButtonHandler = function(event) {
+    console.log(event.target);
+    // if the event being targeted, in this case a click, is sensed in an element containing a class of delete-btn, then the code below will run
+    if (event.target.matches(".delete-btn")) {
+        // get the element's task id. so if somone clicks the delete button it creates a variable taskId which is set equal to the value of the attribute "data-task-id" of the element that was clicked
+        var taskId = event.target.getAttribute("data-task-id");
+        console.log(taskId);
+    }
+};
+
+pageContentEl.addEventListener("click", taskButtonHandler);
