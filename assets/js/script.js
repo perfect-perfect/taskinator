@@ -27,7 +27,9 @@ var taskFormHandler = function (event) {
     createTaskEl(taskDataObj);
 
 };
-//what does having taskDataObj here do? sent the object through? what's the difference between this and a parameter?
+
+// this function creates the task
+// what does having taskDataObj here do? sent the object through? what's the difference between this and a parameter?
 var createTaskEl = function(taskDataObj) {
     //create list item
     var listItemEl = document.createElement("li");
