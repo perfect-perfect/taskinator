@@ -250,7 +250,7 @@ var taskStatusChangeHandler = function(event) {
 };
 
 var loadTasks = function() {
-    // gets task items from localStorage
+    // gets task items from localStorage as a string
     tasks = localStorage.getItem("tasks");
     console.log(tasks);
 
@@ -298,6 +298,8 @@ var loadTasks = function() {
         // append taskActionsEl to listItemEl
         listItemEl.appendChild(taskActionsEl);
 
+        console.log(tasks[i].status);
+
         // with an if statement, check if the value of tasks[i].status is equal to "to do"
         if (tasks[i].status === "to do") {
             listItemEl.querySelector("select[name='status-change']").selectedIndex = 0;
@@ -305,7 +307,11 @@ var loadTasks = function() {
             // append listItemEl to tasksToDoEl
             tasksToDoEl.appendChild(listItemEl);
         }
-        else if (tasks[i].status === "complete") {
+        else if (tasks[i].status === "in progress") {
+            listItemEl.querySelector("select[name='status-change']").selectedIndex = 1;
+            tasksInProgressEl.appendChild(listItemEl);
+        }
+        else if (tasks[i].status === "completed") {
             listItemEl.querySelector("select[name='status-change']").selectedIndex = 2;
             // append listItemEl to tasksCompletedEl
             tasksCompletedEl.appendChild(listItemEl);
