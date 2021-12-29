@@ -80,6 +80,7 @@ var createTaskEl = function(taskDataObj) {
     //create list item
     var listItemEl = document.createElement("li");
     listItemEl.className = "task-item";
+    // this is very important step. this creates the attribute data-task-id and assigns it to the taskIdCounter. we use the attribute EVERYWHERE in the application
     listItemEl.setAttribute("data-task-id", taskIdCounter);
 
     // create div to hold task info and add to list item (Why does this need a div element? review section 4.2.6)/ because form inputs can be hard tocontrol so we always want to wrap them in a <div>
@@ -107,12 +108,15 @@ var createTaskEl = function(taskDataObj) {
     // increase task counter for next unique id
     taskIdCounter++;
 
+    // this function saves our freshly created task/object array to localStorage, first it converts it to a string.
     saveTasks();
     // console.log(taskDataObj);
     // console.log(taskDataObj.status);
 };
 
+// analyze and investigate the taskID here, whatever gets sent through here can be referenced as taskID
 var createTaskActions = function(taskId) {
+    console.log(taskId)
     var actionContainerEl = document.createElement("div");
     actionContainerEl.className = "task-actions";
 
@@ -139,6 +143,9 @@ var createTaskActions = function(taskId) {
     statusSelectEl.setAttribute("data-task-id", taskId);
     actionContainerEl.appendChild(statusSelectEl);
 
+
+    // ****************************************************************************
+    // ******************** important  us an array to draw status *****************
     // array created so we can reference it directly below in the block of code that creates the <option> elements
     var statusChoices = ["To Do", "In Progress", "Completed"];
     // for each of the items in the array, this creates an option element
@@ -149,6 +156,12 @@ var createTaskActions = function(taskId) {
         // append to select
         statusSelectEl.appendChild(statusOptionEl);
     }
+    // ****************************************************************************
+    // ****************************************************************************
+
+
+
+
 
     return actionContainerEl;
 };
@@ -182,6 +195,12 @@ var deleteTask = function(taskId) {
     saveTasks();
 };
 
+
+
+// *****************************************************************************************************
+// **************************************************************************************************
+// *************** important, using event.target to see what button was clicked and depending on the button have different reactions
+// *************** we can use this for the multiple choise questions and recognizing if the right one is clicked
 // if a click is sensed in pageContentEl this function will run
 var taskButtonHandler = function(event) {
     // get targer element from event
@@ -216,6 +235,13 @@ var taskButtonHandler = function(event) {
 
     }
 };
+// ************************************************************************************************************************
+// ************************************************************************************************************************
+// ************************************************************************************************************************
+
+
+
+
 
 var taskStatusChangeHandler = function(event) {
     // get the task item's id
@@ -252,7 +278,7 @@ var taskStatusChangeHandler = function(event) {
 var loadTasks = function() {
     // gets task items from localStorage as a string
     tasks = localStorage.getItem("tasks");
-    console.log(tasks);
+    // console.log(tasks);
 
     if (tasks === null) {
         tasks = [];
@@ -261,11 +287,11 @@ var loadTasks = function() {
 
     // converts tasks from the string format back into an array of objects
     tasks = JSON.parse(tasks);
-    console.log(tasks);
+    // console.log(tasks);
 
     // iterates through the tasks array and creates task elements on the page from it
     for (var i = 0; i < tasks.length; i++) {
-        console.log(tasks[i]);
+        // console.log(tasks[i]);
 
         // keep id for each task in sync
         tasks[i].id = taskIdCounter;
@@ -286,6 +312,9 @@ var loadTasks = function() {
         // give it a classname property task-info to set the HTML class attribute
         taskInfoEl.className = "task-info";
 
+
+        //************************** this could help. tasks[i].name finds a specifiv name of a specific object of an array *
+        // *********************************************************************************************************************
         // set its innerHTML
         taskInfoEl.innerHTML = "<h3 class ='task-name'>" + tasks[i].name + "</h3><span class='task-type'>" + tasks[i].type + "</span>";
 
@@ -298,7 +327,7 @@ var loadTasks = function() {
         // append taskActionsEl to listItemEl
         listItemEl.appendChild(taskActionsEl);
 
-        console.log(tasks[i].status);
+        // console.log(tasks[i].status);
 
         // with an if statement, check if the value of tasks[i].status is equal to "to do"
         if (tasks[i].status === "to do") {
@@ -317,11 +346,13 @@ var loadTasks = function() {
             tasksCompletedEl.appendChild(listItemEl);
         
         }
-
+        // ************************************************************************************
+        //************************************************************************************* 
+        // i can maybe cycle throguh the object array of questions. at the end of each question bump up the counter so the next question will run next go around
         // increase taskIdCounter by 1
         taskIdCounter++;
 
-        console.log(listItemEl);
+        // console.log(listItemEl);
     }
 }
 
